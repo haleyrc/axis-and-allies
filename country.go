@@ -55,6 +55,11 @@ func UnitsForCountry(country CountryName) []Unit {
 	return nil
 }
 
+// TODO (RCH): Implement this
+func IPCsForCountry(country CountryName) int {
+	return 0
+}
+
 func NewCountry(name CountryName) *Country {
 	return &Country{
 		Name:       name,
@@ -62,6 +67,7 @@ func NewCountry(name CountryName) *Country {
 		Color:      ColorForCountry(name),
 		Allegiance: AllegianceForCountry(name),
 		Units:      UnitsForCountry(name),
+		IPCs:       IPCsForCountry(name),
 	}
 }
 
@@ -71,4 +77,5 @@ type Country struct {
 	Color      string
 	Allegiance Allegiance
 	Units      []Unit
+	IPCs       int
 }
