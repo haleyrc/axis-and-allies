@@ -3,9 +3,9 @@ package axal
 type CountryName string
 
 const (
-	US      CountryName = "US"
-	UK                  = "UK"
-	USSR                = "USSR"
+	US      CountryName = "United State"
+	UK                  = "United Kingdom"
+	USSR                = "Soviet Union"
 	Germany             = "Germany"
 	Japan               = "Japan"
 )
@@ -13,182 +13,356 @@ const (
 type UnitType string
 
 const (
-	Infantry              UnitType = "Infantry"
-	Artillery                      = "Artillery"
-	Tank                           = "Tank"
-	AntiAircraftArtillery          = "AntiAircraftArtillery"
-	Fighter                        = "Fighter"
-	Bomber                         = "Bomber"
-	AircraftCarrier                = "AircraftCarrier"
-	Battleship                     = "Battleship"
-	Cruiser                        = "Cruiser"
-	Destroyer                      = "Destroyer"
-	Submarine                      = "Submarine"
-	Transport                      = "Transport"
+	UnitInfantry              UnitType = "Infantry"
+	UnitArtillery                      = "Artillery"
+	UnitTank                           = "Tank"
+	UnitAntiAircraftArtillery          = "AntiAircraftArtillery"
+	UnitFighter                        = "Fighter"
+	UnitBomber                         = "Bomber"
+	UnitAircraftCarrier                = "AircraftCarrier"
+	UnitBattleship                     = "Battleship"
+	UnitCruiser                        = "Cruiser"
+	UnitDestroyer                      = "Destroyer"
+	UnitSubmarine                      = "Submarine"
+	UnitTransport                      = "Transport"
 )
 
-func UnitNameForCountry(country CountryName, unit UnitType) string {
-	switch country {
+type Unit interface {
+	Name() string
+	Type() UnitType
+}
+
+func NewInfantry(country CountryName) *Infantry {
+	return &Infantry{Country: country}
+}
+
+type Infantry struct {
+	Country CountryName
+}
+
+func (i *Infantry) Name() string {
+	return "Infantry"
+}
+
+func (i *Infantry) Type() UnitType {
+	return UnitInfantry
+}
+
+func NewArtillery(country CountryName) *Artillery {
+	return &Artillery{Country: country}
+}
+
+type Artillery struct {
+	Country CountryName
+}
+
+func (a *Artillery) Name() string {
+	switch a.Country {
 	case US:
-		switch unit {
-		case Infantry:
-			return "Infantry"
-		case Artillery:
-			return "105mm Howitzer"
-		case Tank:
-			return "Sherman"
-		case AntiAircraftArtillery:
-			return "90mm M1"
-		case Fighter:
-			return "P-38"
-		case Bomber:
-			return "B-17"
-		case AircraftCarrier:
-			return "Wasp"
-		case Battleship:
-			return "Iowa"
-		case Cruiser:
-			return "Portland"
-		case Destroyer:
-			return "Johnston"
-		case Submarine:
-			return "Ray"
-		case Transport:
-			return "Libery Ship"
-		default:
-			return ""
-		}
+		return "105mm Howitzer"
 	case UK:
-		switch unit {
-		case Infantry:
-			return "Infantry"
-		case Artillery:
-			return "Ordnance QF 25 Pounder"
-		case Tank:
-			return "Matilda II"
-		case AntiAircraftArtillery:
-			return "3.7in QFAA"
-		case Fighter:
-			return "Spitfire"
-		case Bomber:
-			return "Halifax"
-		case AircraftCarrier:
-			return "Illustrious"
-		case Battleship:
-			return "Royal Oak"
-		case Cruiser:
-			return "Kent"
-		case Destroyer:
-			return "S Class"
-		case Submarine:
-			return "T Class"
-		case Transport:
-			return "Libery Ship"
-		default:
-			return ""
-		}
+		return "Ordnance QF 25 Pounder"
 	case USSR:
-		switch unit {
-		case Infantry:
-			return "Infantry"
-		case Artillery:
-			return "105mm Howitzer"
-		case Tank:
-			return "T-34"
-		case AntiAircraftArtillery:
-			return "85mm M1939"
-		case Fighter:
-			return "Yak 3"
-		case Bomber:
-			return "Petlyakov PE-8"
-		case AircraftCarrier:
-			return "Illustrious"
-		case Battleship:
-			return "Gangut"
-		case Cruiser:
-			return "Kirov"
-		case Destroyer:
-			return "Gnevnyi"
-		case Submarine:
-			return "S Class"
-		case Transport:
-			return "Liberty Ship"
-		default:
-			return ""
-		}
+		return "105mm Howitzer"
 	case Germany:
-		switch unit {
-		case Infantry:
-			return "Infantry"
-		case Artillery:
-			return "10.5cm LeFH 18"
-		case Tank:
-			return "Panther"
-		case AntiAircraftArtillery:
-			return "8.8cm Flak 36"
-		case Fighter:
-			return "BF-109"
-		case Bomber:
-			return "JU-88"
-		case AircraftCarrier:
-			return "Graf Zeppelin"
-		case Battleship:
-			return "Bismarck"
-		case Cruiser:
-			return "Hipper"
-		case Destroyer:
-			return "Zerstorer 1934"
-		case Submarine:
-			return "Type VII"
-		case Transport:
-			return "Hilfskruezer"
-		default:
-			return ""
-		}
+		return "10.5cm LeFH 18"
 	case Japan:
-		switch unit {
-		case Infantry:
-			return "Infantry"
-		case Artillery:
-			return "Type 92 Howitzer"
-		case Tank:
-			return "Type 95"
-		case AntiAircraftArtillery:
-			return "75mm Type 88"
-		case Fighter:
-			return "AGM2 Zero"
-		case Bomber:
-			return "G4M2E Betty"
-		case AircraftCarrier:
-			return "Shinano"
-		case Battleship:
-			return "Yamato"
-		case Cruiser:
-			return "Takao"
-		case Destroyer:
-			return "Fubuki"
-		case Submarine:
-			return "I-class"
-		case Transport:
-			return "Hakusan Maru"
-		default:
-			return ""
-		}
+		return "Type 92 Howitzer"
 	default:
 		return ""
 	}
 }
 
-func NewUnit(country CountryName, t UnitType) *Unit {
-	return &Unit{
-		Country: country,
-		Type:    t,
-		Name:    UnitNameForCountry(country, t),
+func (a *Artillery) Type() UnitType {
+	return UnitArtillery
+}
+
+func NewTank(country CountryName) *Tank {
+	return &Tank{Country: country}
+}
+
+type Tank struct {
+	Country CountryName
+}
+
+func (t *Tank) Name() string {
+	switch t.Country {
+	case US:
+		return "Sherman"
+	case UK:
+		return "Matilda II"
+	case USSR:
+		return "T-34"
+	case Germany:
+		return "Panther"
+	case Japan:
+		return "Type 95"
+	default:
+		return ""
 	}
 }
 
-type Unit struct {
+func (t *Tank) Type() UnitType {
+	return UnitTank
+}
+
+func NewAntiAircraftArtillery(country CountryName) *AntiAircraftArtillery {
+	return &AntiAircraftArtillery{Country: country}
+}
+
+type AntiAircraftArtillery struct {
 	Country CountryName
-	Type    UnitType
-	Name    string
+}
+
+func (a *AntiAircraftArtillery) Name() string {
+	switch a.Country {
+	case US:
+		return "90mm M1"
+	case UK:
+		return "3.7in QFAA"
+	case USSR:
+		return "85mm M1939"
+	case Germany:
+		return "8.8cm Flak 36"
+	case Japan:
+		return "75mm Type 88"
+	default:
+		return ""
+	}
+}
+
+func (a *AntiAircraftArtillery) Type() UnitType {
+	return UnitAntiAircraftArtillery
+}
+
+func NewFighter(country CountryName) *Fighter {
+	return &Fighter{Country: country}
+}
+
+type Fighter struct {
+	Country CountryName
+}
+
+func (f *Fighter) Name() string {
+	switch f.Country {
+	case US:
+		return "P-38"
+	case UK:
+		return "Spitfire"
+	case USSR:
+		return "Yak 3"
+	case Germany:
+		return "BF-109"
+	case Japan:
+		return "AGM2 Zero"
+	default:
+		return ""
+	}
+}
+
+func (f *Fighter) Type() UnitType {
+	return UnitFighter
+}
+
+func NewBomber(country CountryName) *Bomber {
+	return &Bomber{Country: country}
+}
+
+type Bomber struct {
+	Country CountryName
+}
+
+func (b *Bomber) Name() string {
+	switch b.Country {
+	case US:
+		return "B-17"
+	case UK:
+		return "Halifax"
+	case USSR:
+		return "Petlyakov PE-8"
+	case Germany:
+		return "JU-88"
+	case Japan:
+		return "G4M2E Betty"
+	default:
+		return ""
+	}
+}
+
+func (b *Bomber) Type() UnitType {
+	return UnitBomber
+}
+
+func NewAircraftCarrier(country CountryName) *AircraftCarrier {
+	return &AircraftCarrier{Country: country}
+}
+
+type AircraftCarrier struct {
+	Country CountryName
+}
+
+func (a *AircraftCarrier) Name() string {
+	switch a.Country {
+	case US:
+		return "Wasp"
+	case UK:
+		return "Illustrious"
+	case USSR:
+		return "Illustrious"
+	case Germany:
+		return "Graf Zeppelin"
+	case Japan:
+		return "Shinano"
+	default:
+		return ""
+	}
+}
+
+func (a *AircraftCarrier) Type() UnitType {
+	return UnitAircraftCarrier
+}
+
+func NewBattleship(country CountryName) *Battleship {
+	return &Battleship{Country: country}
+}
+
+type Battleship struct {
+	Country CountryName
+}
+
+func (b *Battleship) Name() string {
+	switch b.Country {
+	case US:
+		return "Iowa"
+	case UK:
+		return "Royal Oak"
+	case USSR:
+		return "Gangut"
+	case Germany:
+		return "Bismarck"
+	case Japan:
+		return "Yamato"
+	default:
+		return ""
+	}
+}
+
+func (b *Battleship) Type() UnitType {
+	return UnitBattleship
+}
+
+func NewCruiser(country CountryName) *Cruiser {
+	return &Cruiser{Country: country}
+}
+
+type Cruiser struct {
+	Country CountryName
+}
+
+func (c *Cruiser) Name() string {
+	switch c.Country {
+	case US:
+		return "Portland"
+	case UK:
+		return "Kent"
+	case USSR:
+		return "Kirov"
+	case Germany:
+		return "Hipper"
+	case Japan:
+		return "Takao"
+	default:
+		return ""
+	}
+}
+
+func (c *Cruiser) Type() UnitType {
+	return UnitCruiser
+}
+
+func NewDestroyer(country CountryName) *Destroyer {
+	return &Destroyer{Country: country}
+}
+
+type Destroyer struct {
+	Country CountryName
+}
+
+func (d *Destroyer) Name() string {
+	switch d.Country {
+	case US:
+		return "Johnston"
+	case UK:
+		return "S Class"
+	case USSR:
+		return "Gnevnyi"
+	case Germany:
+		return "Zerstorer 1934"
+	case Japan:
+		return "Fubuki"
+	default:
+		return ""
+	}
+}
+
+func (d *Destroyer) Type() UnitType {
+	return UnitDestroyer
+}
+
+func NewSubmarine(country CountryName) *Submarine {
+	return &Submarine{Country: country}
+}
+
+type Submarine struct {
+	Country CountryName
+}
+
+func (s *Submarine) Name() string {
+	switch s.Country {
+	case US:
+		return "Ray"
+	case UK:
+		return "T Class"
+	case USSR:
+		return "S Class"
+	case Germany:
+		return "Type VII"
+	case Japan:
+		return "I-class"
+	default:
+		return ""
+	}
+}
+
+func (s *Submarine) Type() UnitType {
+	return UnitSubmarine
+}
+
+func NewTransport(country CountryName) *Transport {
+	return &Transport{Country: country}
+}
+
+type Transport struct {
+	Country CountryName
+}
+
+func (t *Transport) Name() string {
+	switch t.Country {
+	case US:
+		return "Libery Ship"
+	case UK:
+		return "Libery Ship"
+	case USSR:
+		return "Liberty Ship"
+	case Germany:
+		return "Hilfskruezer"
+	case Japan:
+		return "Hakusan Maru"
+	default:
+		return ""
+	}
+}
+
+func (t *Transport) Type() UnitType {
+	return UnitTransport
 }

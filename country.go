@@ -50,12 +50,18 @@ func AllegianceForCountry(country CountryName) Allegiance {
 	}
 }
 
+// TODO (RCH): Implement this
+func UnitsForCountry(country CountryName) []Unit {
+	return nil
+}
+
 func NewCountry(name CountryName) *Country {
 	return &Country{
 		Name:       name,
 		Income:     StartingIncomeForCountry(name),
 		Color:      ColorForCountry(name),
 		Allegiance: AllegianceForCountry(name),
+		Units:      UnitsForCountry(name),
 	}
 }
 
@@ -64,4 +70,5 @@ type Country struct {
 	Income     int
 	Color      string
 	Allegiance Allegiance
+	Units      []Unit
 }
