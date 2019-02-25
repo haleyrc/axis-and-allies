@@ -3,11 +3,12 @@ package axal
 type CountryName string
 
 const (
-	US      CountryName = "United State"
-	UK                  = "United Kingdom"
-	USSR                = "Soviet Union"
-	Germany             = "Germany"
-	Japan               = "Japan"
+	Uncontrolled CountryName = "Uncontrolled"
+	US                       = "United States"
+	UK                       = "United Kingdom"
+	USSR                     = "Soviet Union"
+	Germany                  = "Germany"
+	Japan                    = "Japan"
 )
 
 type UnitType string
